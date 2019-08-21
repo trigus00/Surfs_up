@@ -119,7 +119,8 @@ def tobs():
      start_date = max_date - dt.timedelta(365)
 
      #get temperature measurements for last year
-     results = session.query(Measurement)filter(func.strftime("%Y-%m-%d", Measurement.date) >= start_date).all()
+     results = session.query(Measurement).\
+         filter(func.strftime("%Y-%m-%d", Measurement.date) >= start_date).all()
 
      #create list of dictionaries (one for each observation)
      tobs_list = []
@@ -146,7 +147,7 @@ def start(start):
     
     #create a list
     return_list = []
-    date_dict = {"start_date": start_date, "end_date": max_date}
+    date_dict = {"start_date": 2016-08-23, "end_date": max_date}
     return_list.append(date_dict)
     return_list.append({'Observation': 'TMIN', 'Temperature': temps[0][0]})
     return_list.append({'Observation': 'TAVG', 'Temperature': temps[0][1]})
@@ -165,7 +166,7 @@ def start_end(start, end):
     #create a list
     return_list = []
 
-    date_dict = {'start_date': start, 'end_date': end}
+    date_dict = {'start_date': 2016-08-23, 'end_date': 2017-08-23}
     return_list.append(date_dict)
     return_list.append({'Observation': 'TMIN', 'Temperature': temps[0][0]})
     return_list.append({'Observation': 'TANG', 'Temperature': temps[0][1]})
