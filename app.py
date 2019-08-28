@@ -134,20 +134,20 @@ def tobs():
 
 @app.route("/api/v1.0/<start>")
 def start(start):
-    """ Enter dates after /<start>> on the URL """  
+   
+
+    print("Received start date api request.")
+
     #First we find the last date in the database
     final_date = session.query(func.max(func.strftime("%Y-%m-%d", Measurement.date))).all()
     max_date = final_date[0][0]
 
-    #get the temperaturesset beginning of search query
-    start_date = max_date - dt.timedelta(365)
-    
     #get the temperatures
     temps = calc_temps(start, max_date)
-    
+
     #create a list
     return_list = []
-    date_dict = {"start_date": 2016-08-23, "end_date": max_date}
+    date_dict = {'start_date': start, 'end_date': max_date}
     return_list.append(date_dict)
     return_list.append({'Observation': 'TMIN', 'Temperature': temps[0][0]})
     return_list.append({'Observation': 'TAVG', 'Temperature': temps[0][1]})
@@ -158,22 +158,21 @@ def start(start):
 @app.route("/api/v1.0/<start>/<end>")
 def start_end(start, end):
     """ Enter dates between <<start>>/<<end>> on the URL """  
-   
+  
     print("Received start date and end date api request.")
-   
+
+    #get the temperatures
     temps = calc_temps(start, end)
 
     #create a list
     return_list = []
-
-    date_dict = {'start_date': 2016-08-23, 'end_date': 2017-08-23}
+    date_dict = {'start_date': start, 'end_date': end}
     return_list.append(date_dict)
     return_list.append({'Observation': 'TMIN', 'Temperature': temps[0][0]})
-    return_list.append({'Observation': 'TANG', 'Temperature': temps[0][1]})
+    return_list.append({'Observation': 'TAVG', 'Temperature': temps[0][1]})
     return_list.append({'Observation': 'TMAX', 'Temperature': temps[0][2]})
 
     return jsonify(return_list)
-
 
 #code to actually run
 if __name__ == "__main__":
